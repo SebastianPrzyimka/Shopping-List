@@ -1,13 +1,90 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+	min-height: 100vh;
+	font-family: 'Josefin Sans', sans-serif;
+	font-weight: 400;
+	background-color: #21d4fd;
+	background-image: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	font-size: 1.35rem;
+	margin-left: 2rem;
+	padding: 1.25rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+li:last-child {
+	margin-bottom: 3rem;
+}
+
+form {
+	margin-bottom: 40px;
+}
+
+.container h1 {
+	text-align: center;
+	padding-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.container {
+	width: 500px;
+	height: 700px;
+	overflow: auto;
+	background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+}
+
+.input-name {
+	border: 2px solid #d2042d;
+	border-radius: 1rem;
+	font-size: 1.25rem;
+	padding: 0.5rem;
+	margin: 0 1rem;
+}
+
+.input-button {
+	padding: 0.6rem 1.5rem;
+	border-radius: 1rem;
+	border: none;
+	color: #fff;
+	font-size: 1rem;
+	background-color: #d2042d;
+	cursor: pointer;
+}
+
+.checkbox {
+	accent-color: #d2042d;
+	width: 1.2rem;
+	height: 1rem;
+}
+
+.total {
+	font-size: 1.5rem;
+	margin-left: 2.6rem;
+	padding-bottom: 3rem;
+}
+
+button {
+	border: none;
+	font-size: 1.25rem;
+	cursor: pointer;
+}
+
+.delete {
+	margin-left: 1rem;
 }
