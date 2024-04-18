@@ -33,7 +33,7 @@ li:last-child {
 }
 
 form {
-	margin-bottom: 40px;
+	margin-bottom: 3rem;
 }
 
 .container h1 {
@@ -87,4 +87,100 @@ button {
 
 .delete {
 	margin-left: 1rem;
+}
+
+@media (max-width: 430px) {
+	.container {
+		width: 390px;
+	}
+
+	.input-button {
+		margin-top: 2rem;
+		margin-left: 1.25rem;
+	}
+
+	.arrow {
+		margin: 0.5rem;
+	}
+
+	li {
+		margin-left: 0.5rem;
+	}
+}
+
+@media (max-width: 375px) {
+	.container {
+		width: 310px;
+		height: 580px;
+	}
+
+	.input-button {
+		margin-top: 2rem;
+		margin-left: 1.25rem;
+	}
+
+	.arrow {
+		margin: 0.5rem;
+	}
+
+	li {
+		margin-left: 0.5rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.container {
+		width: 320px;
+	}
+
+	.input-button {
+		margin-top: 2rem;
+		margin-left: 1.25rem;
+	}
+
+	.arrow {
+		margin: 0.5rem;
+	}
+
+	li {
+		margin-left: 0.5rem;
+	}
+}
+
+@media (max-width: 390px) {
+	.container {
+		width: 320px;
+	}
+
+	.input-button {
+		margin-top: 2rem;
+		margin-left: 1.25rem;
+	}
+
+	.arrow {
+		margin: 0.5rem;
+	}
+
+	li {
+		margin-left: 0.5rem;
+	}
+}
+
+@media (max-width: 412px) {
+	.container {
+		width: 370px;
+	}
+
+	.input-button {
+		margin-top: 2rem;
+		margin-left: 1.25rem;
+	}
+
+	.arrow {
+		margin: 0.5rem;
+	}
+
+	li {
+		margin-left: 0.5rem;
+	}
 }
