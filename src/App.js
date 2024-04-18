@@ -7,6 +7,7 @@ export default function App() {
 	const [text, setText] = useState('');
 
 	// if error put bad shopping items in handleSubmit function
+	console.log(setQuantity);
 	const shoppingItems = [
 		...itemsShopping,
 		{ name: text, quantity: quantity, id: new Date() },
