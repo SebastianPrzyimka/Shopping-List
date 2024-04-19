@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function App() {
 	const [name, setName] = useState('');
@@ -7,29 +7,51 @@ export default function App() {
 	const [text, setText] = useState('');
 
 	// if error put bad shopping items in handleSubmit function
-	console.log(setQuantity);
+
 	const shoppingItems = [
 		...itemsShopping,
-		{ name: text, quantity: quantity, id: new Date() },
+		{ name: text, quantity: quantity, isOpen: false, id: new Date() },
 	];
+
+	useEffect(() => {
+		const storedList = JSON.parse(localStorage.getItem('list'));
+		if (storedList) {
+			setItemsShopping(storedList);
+		}
+	}, []);
+
 	//
 	function handleSubmit(e) {
 		e.preventDefault();
 
 		setItemsShopping(shoppingItems);
 		setText('');
+
+		localStorage.setItem('list', JSON.stringify(shoppingItems));
+
+		return shoppingItems;
 	}
 
 	function handleDelete(id) {
 		setItemsShopping(deleteItems => deleteItems.filter(item => item.id !== id));
+
+		const updatedList = itemsShopping.filter(item => item.id !== id);
+		localStorage.setItem('list', JSON.stringify(updatedList));
 	}
 
 	function handleItem(id, increment) {
 		setItemsShopping(prevItem =>
 			prevItem.map(item => {
 				if (item.id === id) {
-					return { ...item, quantity: item.quantity + increment };
+					const updatedItem = { ...item, quantity: item.quantity + increment };
+
+					const updatedList = prevItem.map(item =>
+						item.id === id ? updatedItem : item
+					);
+					localStorage.setItem('list', JSON.stringify(updatedList));
+					return updatedItem;
 				}
+
 				return item;
 			})
 		);
@@ -37,6 +59,17 @@ export default function App() {
 
 	function handleAddItems() {
 		return itemsShopping.reduce((total, item) => total + item.quantity, 0);
+	}
+
+	function check(id) {
+		setItemsShopping(prevItem =>
+			prevItem.map(item => {
+				if (item.id === id) {
+					return { ...item, quantity: 0, isOpen: !item.isOpen };
+				}
+				return item;
+			})
+		);
 	}
 
 	return (
@@ -56,6 +89,7 @@ export default function App() {
 				onHandleItem={handleItem}
 				setQuantity={quantity}
 				onAddItems={handleAddItems}
+				check={check}
 			/>
 		</div>
 	);
@@ -84,7 +118,7 @@ function ShoppingList({
 	onDelete,
 	onHandleItem,
 	onAddItems,
-	quantity,
+	check,
 }) {
 	return (
 		<div className='elements'>
@@ -97,6 +131,8 @@ function ShoppingList({
 						id={item.id}
 						key={item.id}
 						onHandleItem={onHandleItem}
+						check={check}
+						isOpen={item.isOpen}
 					/>
 				))}
 			</ul>
@@ -106,12 +142,17 @@ function ShoppingList({
 	);
 }
 
-function Items({ name, quantity, onDelete, id, onHandleItem }) {
+function Items({ name, quantity, onDelete, id, onHandleItem, check, isOpen }) {
 	return (
 		<>
 			<li>
-				<div>
-					<input className='checkbox' type='checkbox' /> {name}
+				<div className={isOpen ? 'check' : 'li-text'}>
+					<input
+						onClick={() => check(id)}
+						className='checkbox'
+						type='checkbox'
+					/>
+					{name}
 				</div>
 				<div>
 					<button
