@@ -69,6 +69,23 @@ form {
 	cursor: pointer;
 }
 
+.delete-all {
+	padding: 0.6rem 1.5rem;
+	border-radius: 1rem;
+	border: none;
+	margin-left: 2rem;
+	color: #fff;
+	font-size: 1rem;
+	background-color: #d2042d;
+	cursor: pointer;
+}
+
+.error {
+	color: red;
+	margin-top: 0.7rem;
+	margin-left: 1.1rem;
+}
+
 .checkbox {
 	accent-color: #d2042d;
 	width: 1.2rem;

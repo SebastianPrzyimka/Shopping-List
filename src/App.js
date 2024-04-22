@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { ShoppingList } from './ShoppingList';
+import { Header } from './Header';
 
 export default function App() {
 	const [name, setName] = useState('');
 	const [quantity, setQuantity] = useState(1);
 	const [itemsShopping, setItemsShopping] = useState([]);
 	const [text, setText] = useState('');
+	const [isSubmited, setIsSubmited] = useState(false);
 
-	// if error put bad shopping items in handleSubmit function
+	console.log(setQuantity);
 
 	const shoppingItems = [
 		...itemsShopping,
@@ -23,13 +26,15 @@ export default function App() {
 	//
 	function handleSubmit(e) {
 		e.preventDefault();
-
+		if (!text) {
+			setIsSubmited(true);
+			return;
+		}
+		setIsSubmited(false);
 		setItemsShopping(shoppingItems);
 		setText('');
 
 		localStorage.setItem('list', JSON.stringify(shoppingItems));
-
-		return shoppingItems;
 	}
 
 	function handleDelete(id) {
@@ -37,6 +42,13 @@ export default function App() {
 
 		const updatedList = itemsShopping.filter(item => item.id !== id);
 		localStorage.setItem('list', JSON.stringify(updatedList));
+	}
+
+	function handleDeleteAll(e) {
+		e.preventDefault();
+		setItemsShopping([]);
+
+		localStorage.setItem('list', JSON.stringify([]));
 	}
 
 	function handleItem(id, increment) {
@@ -65,8 +77,15 @@ export default function App() {
 		setItemsShopping(prevItem =>
 			prevItem.map(item => {
 				if (item.id === id) {
-					return { ...item, quantity: 0, isOpen: !item.isOpen };
+					const updatedItem = { ...item, quantity: 0, isOpen: !item.isOpen };
+
+					const updatedList = prevItem.map(item =>
+						item.id === id ? updatedItem : item
+					);
+					localStorage.setItem('list', JSON.stringify(updatedList));
+					return updatedItem;
 				}
+
 				return item;
 			})
 		);
@@ -80,6 +99,8 @@ export default function App() {
 				setText={setText}
 				setName={setName}
 				name={name}
+				onDeleteAll={handleDeleteAll}
+				isSubmited={isSubmited}
 			/>
 			<ShoppingList
 				itemsShopping={itemsShopping}
@@ -92,84 +113,5 @@ export default function App() {
 				check={check}
 			/>
 		</div>
-	);
-}
-
-function Header({ text, onSubmit, setText }) {
-	return (
-		<>
-			<h1>Shopping List 🍎</h1>
-			<form>
-				<input
-					className='input-name'
-					type='text'
-					placeholder='Item Name'
-					value={text}
-					onChange={e => setText(e.target.value)}
-				/>
-				<input className='input-button' type='submit' onClick={onSubmit} />
-			</form>
-		</>
-	);
-}
-
-function ShoppingList({
-	itemsShopping,
-	onDelete,
-	onHandleItem,
-	onAddItems,
-	check,
-}) {
-	return (
-		<div className='elements'>
-			<ul>
-				{itemsShopping.map(item => (
-					<Items
-						onDelete={onDelete}
-						name={item.name}
-						quantity={item.quantity}
-						id={item.id}
-						key={item.id}
-						onHandleItem={onHandleItem}
-						check={check}
-						isOpen={item.isOpen}
-					/>
-				))}
-			</ul>
-
-			<span className='total'>Total items {onAddItems()}</span>
-		</div>
-	);
-}
-
-function Items({ name, quantity, onDelete, id, onHandleItem, check, isOpen }) {
-	return (
-		<>
-			<li>
-				<div className={isOpen ? 'check' : 'li-text'}>
-					<input
-						onClick={() => check(id)}
-						className='checkbox'
-						type='checkbox'
-					/>
-					{name}
-				</div>
-				<div>
-					<button
-						className='arrow'
-						onClick={() => onHandleItem(id, quantity >= 1 ? -1 : 0)}
-					>
-						◀️
-					</button>
-					<span>{quantity}</span>
-					<button className='arrow' onClick={() => onHandleItem(id, 1)}>
-						▶️
-					</button>
-					<button onClick={() => onDelete(id)} className='delete'>
-						🗑️
-					</button>
-				</div>
-			</li>
-		</>
 	);
 }
